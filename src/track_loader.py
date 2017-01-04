@@ -13,9 +13,12 @@ def load_gpx_file(file_name):
     return t
 
 
-def load_cached_track_file(file_name, cache_dir):
-    checksum = hashlib.sha256(open(file_name, 'rb').read()).hexdigest()
-    cache_file = os.path.join(cache_dir, checksum + ".json")
+def load_cached_track_file(file_name, cache_dir, load_json = False):
+    if load_json:
+        cache_file = os.path.join(cache_dir, file_name)
+    else:
+        checksum = hashlib.sha256(open(file_name, 'rb').read()).hexdigest()
+        cache_file = os.path.join(cache_dir, checksum + ".json")
     t = track.Track()
     t.load_cache(cache_file)
     t.file_names = [os.path.basename(file_name)]
@@ -37,9 +40,14 @@ class TrackLoader:
             except OSError as e:
                 print("Failed: {}".format(e))
 
-    def load_tracks(self, base_dir):
-        file_names = [x for x in self.__list_gpx_files(base_dir)]
-        print("GPX files: {}".format(len(file_names)))
+    def load_tracks(self, base_dir, load_json = False):
+        if load_json:
+            self.cache_dir = os.path.abspath(base_dir)
+            file_names = [x for x in self.__list_json_files(base_dir)]
+            print("JSON files: {}".format(len(file_names)))
+        else:
+            file_names = [x for x in self.__list_gpx_files(base_dir)]
+            print("GPX files: {}".format(len(file_names)))
 
         tracks = []
 
@@ -47,7 +55,7 @@ class TrackLoader:
         cached_tracks = []
         if self.cache_dir:
             print("Trying to load {} track(s) from cache...".format(len(file_names)))
-            cached_tracks = self.__load_tracks_from_cache(file_names, self.cache_dir)
+            cached_tracks = self.__load_tracks_from_cache(file_names, self.cache_dir, load_json)
             print("Loaded tracks from cache:", len(cached_tracks))
             tracks = list(cached_tracks.values())
 
@@ -118,11 +126,11 @@ class TrackLoader:
         return tracks
 
     @staticmethod
-    def __load_tracks_from_cache(file_names, cache_dir):
+    def __load_tracks_from_cache(file_names, cache_dir, load_json = False):
         tracks = {}
         failed_loads = []
         with concurrent.futures.ProcessPoolExecutor() as executor:
-            future_to_file_name = {executor.submit(load_cached_track_file, file_name, cache_dir): file_name for file_name in file_names}
+            future_to_file_name = {executor.submit(load_cached_track_file, file_name, cache_dir, load_json): file_name for file_name in file_names}
         for future in concurrent.futures.as_completed(future_to_file_name):
             file_name = future_to_file_name[future]
             try:
@@ -141,6 +149,16 @@ class TrackLoader:
         for name in os.listdir(base_dir):
             path_name = os.path.join(base_dir, name)
             if name.endswith(".gpx") and os.path.isfile(path_name):
+                yield path_name
+
+    @staticmethod
+    def __list_json_files(base_dir):
+        base_dir = os.path.abspath(base_dir)
+        if not os.path.isdir(base_dir):
+            raise Exception("Not a directory: {}".format(base_dir))
+        for name in os.listdir(base_dir):
+            path_name = os.path.join(base_dir, name)
+            if name.endswith(".json") and os.path.isfile(path_name):
                 yield path_name
 
 

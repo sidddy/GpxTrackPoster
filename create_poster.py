@@ -23,6 +23,8 @@ def main():
     args_parser = argparse.ArgumentParser()
     args_parser.add_argument('--gpx-dir', dest='gpx_dir', metavar='DIR', type=str, default='.',
                              help='Directory containing GPX files (default: current directory).')
+    args_parser.add_argument('--json-dir', dest='json_dir', metavar='DIR', type=str, default='',
+                             help='Directory containing JSON files (default: none).')
     args_parser.add_argument('--output', metavar='FILE', type=str, default='poster.svg',
                              help='Name of generated SVG image file (default: "poster.svg").')
     args_parser.add_argument('--year', metavar='YEAR', type=int, default=datetime.date.today().year - 1,
@@ -52,7 +54,10 @@ def main():
     loader.special_file_names = args.special
     if args.clear_cache:
         loader.clear_cache()
-    tracks = loader.load_tracks(args.gpx_dir)
+    if args.json_dir:
+    	tracks = loader.load_tracks(args.json_dir, True)
+    else:
+    	tracks = loader.load_tracks(args.gpx_dir)
     if not tracks:
         raise Exception('No tracks found.')
 
