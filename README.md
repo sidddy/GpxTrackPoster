@@ -8,20 +8,28 @@ First of all, you need directory with a bunch of GPX files (e.g. you can export 
 You will need a little experience running things from the command line to use this script. That said, here are the usage details from the `--help` flag:
 
 ```
-usage: create_poster.py [-h] [--gpx-dir DIR] [--output FILE] [--year YEAR]
+usage: create_poster.py [-h] [--gpx-dir DIR] [--json-dir DIR] [--output FILE] [--year YEAR]
                [--title TITLE] [--athlete NAME] [--special FILE] [--type TYPE]
+               [--stat-label LABEL] [--stat-num NUMBER] [--stat-total KM]
+               [--stat-min KM] [--stat-max KM]
                [--background-color COLOR] [--track-color COLOR]
                [--text-color COLOR] [--special-color COLOR] [--clear-cache]
 
 optional arguments:
   -h, --help                show this help message and exit
   --gpx-dir DIR             Directory containing GPX files (default: current directory).
+  --json-dir DIR            Directory containing JSON files (default: none).
   --output FILE             Name of generated SVG image file (default: "poster.svg").
   --year YEAR               Filter tracks by year (default: past year)
   --title TITLE             Title to display (default: "My Tracks").
   --athlete NAME            Athlete name to display (default: "John Doe").
   --special FILE            Mark track file from the GPX directory as special; use multiple times to mark multiple tracks.
   --type TYPE               Type of poster to create (default: "grid", available: "calendar", "grid", "heatmap").
+  --stat-label LABEL        Label for number of activities (default: "Runs").
+  --stat-num NUMBER         Number of activities (default: automatically calculated).
+  --stat-total KM           Total distance (default: automatically calculated).
+  --stat-min KM             Minimal distance (default: automatically calculated).
+  --stat-max KM             Maximale distance (default: automatically calculated).
   --background-color COLOR  Background color of poster (default: "#222222").
   --track-color COLOR       Color of tracks (default: "#4DD2FF").
   --text-color COLOR        Color of text (default: "#FFFFFF").

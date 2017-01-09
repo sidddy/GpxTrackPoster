@@ -8,6 +8,7 @@ class Poster:
         self.title = "My Poster"
         self.tracks = []
         self.colors = {"background": "#222222", "text": "#FFFFFF", "special": "#FFFF00", "track": "#4DD2FF"}
+        self.statistics = {"label": "Runs", "num": 0, "total": 0.0, "min": 0.0, "max": 0.0}
         self.width = 200
         self.height = 300
         self.tracks_drawer = drawer
@@ -41,19 +42,18 @@ class Poster:
         value_style = "font-size:9px; font-family:Arial"
         small_value_style = "font-size:3px; font-family:Arial"
 
-        (total_length, average_length, min_length, max_length) = self.__compute_track_statistics()
+        self.__compute_track_statistics()
 
-        
-        d.add(d.text("YEAR",                                       insert=(10, self.height-20),  fill=text_color, style=header_style))
-        d.add(d.text("{}".format(self.year),                       insert=(10, self.height-10),  fill=text_color, style=value_style))
-        d.add(d.text(self.athlete,                                 insert=(40, self.height-10),  fill=text_color, style=value_style))
-        d.add(d.text("STATISTICS",                                 insert=(120, self.height-20), fill=text_color, style=header_style))
-        d.add(d.text("Runs: {}".format(len(self.tracks)),          insert=(120, self.height-15), fill=text_color, style=small_value_style))
-        d.add(d.text("Weekly: {:.1f}".format(len(self.tracks)/52), insert=(120, self.height-10), fill=text_color, style=small_value_style))
-        d.add(d.text("Total: {:.1f} km".format(total_length),      insert=(139, self.height-15), fill=text_color, style=small_value_style))
-        d.add(d.text("Avg: {:.1f} km".format(average_length),      insert=(139, self.height-10), fill=text_color, style=small_value_style))
-        d.add(d.text("Min: {:.1f} km".format(min_length),          insert=(167, self.height-15), fill=text_color, style=small_value_style))
-        d.add(d.text("Max: {:.1f} km".format(max_length),          insert=(167, self.height-10), fill=text_color, style=small_value_style))
+        d.add(d.text("YEAR",                                                                   insert=(10, self.height-20),  fill=text_color, style=header_style))
+        d.add(d.text("{}".format(self.year),                                                   insert=(10, self.height-10),  fill=text_color, style=value_style))
+        d.add(d.text(self.athlete,                                                             insert=(40, self.height-10),  fill=text_color, style=value_style))
+        d.add(d.text("STATISTICS",                                                             insert=(120, self.height-20), fill=text_color, style=header_style))
+        d.add(d.text("{}: {}".format(self.statistics['label'], self.statistics['num']),        insert=(120, self.height-15), fill=text_color, style=small_value_style))
+        d.add(d.text("Weekly: {:.1f}".format(self.statistics['num']/52),                       insert=(120, self.height-10), fill=text_color, style=small_value_style))
+        d.add(d.text("Total: {:.1f} km".format(self.statistics['total']),                      insert=(139, self.height-15), fill=text_color, style=small_value_style))
+        d.add(d.text("Avg: {:.1f} km".format(self.statistics['total']/self.statistics['num']), insert=(139, self.height-10), fill=text_color, style=small_value_style))
+        d.add(d.text("Min: {:.1f} km".format(self.statistics['min']),                          insert=(167, self.height-15), fill=text_color, style=small_value_style))
+        d.add(d.text("Max: {:.1f} km".format(self.statistics['max']),                          insert=(167, self.height-10), fill=text_color, style=small_value_style))
         d.add(d.image("img/athlete.png", insert=(35, self.height-25.2), size=(77,6.42)))
 
     def __compute_track_statistics(self):
@@ -66,4 +66,8 @@ class Poster:
                 min_length = t.length
             if max_length < 0 or t.length > max_length:
                 max_length = t.length
-        return 0.001*total_length, 0.001*total_length/len(self.tracks), 0.001*min_length, 0.001*max_length
+
+        self.statistics['num'] = len(self.tracks) if self.statistics['num'] == 0 else self.statistics['num']
+        self.statistics['total'] = 0.001*total_length if self.statistics['total'] == 0 else self.statistics['total']
+        self.statistics['min'] = 0.001*min_length if self.statistics['min'] == 0 else self.statistics['min']
+        self.statistics['max'] = 0.001*max_length if self.statistics['max'] == 0 else self.statistics['max']
