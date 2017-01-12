@@ -34,7 +34,7 @@ class Poster:
         if self.title:
             text_color = self.colors["text"]
             title_style = "font-size:12px; font-family:Arial;"
-            d.add(d.text(self.title, insert=(10, 20), style=title_style))
+            d.add(d.text(self.title, insert=(10, 20), fill=text_color, style=title_style))
         d.add(d.image("img/runalyze.svg", insert=(88.3, 7.66), size=(105, 16.5)))
 
     def __draw_footer(self, d):

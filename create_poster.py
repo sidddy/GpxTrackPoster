@@ -29,8 +29,8 @@ def main():
                              help='Name of generated SVG image file (default: "poster.svg").')
     args_parser.add_argument('--year', metavar='YEAR', type=int, default=datetime.date.today().year - 1,
                              help='Filter tracks by year (default: past year)')
-    args_parser.add_argument('--title', metavar='TITLE', type=str, default="My Tracks",
-                             help='Title to display (default: "My Tracks").')
+    args_parser.add_argument('--title', metavar='TITLE', type=str, default="",
+                             help='Title to display (default: "").')
     args_parser.add_argument('--athlete', metavar='NAME', type=str, default="John Doe",
                              help='Athlete name to display (default: "John Doe").')
     args_parser.add_argument('--special', metavar='FILE', action='append', default=[],
