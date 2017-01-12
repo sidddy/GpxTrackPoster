@@ -5,7 +5,7 @@ class Poster:
     def __init__(self, drawer):
         self.year = None
         self.athlete = None
-        self.title = "My Poster"
+        self.title = ""
         self.tracks = []
         self.colors = {"background": "#222222", "text": "#FFFFFF", "special": "#FFFF00", "track": "#4DD2FF"}
         self.statistics = {"label": "Runs", "num": 0, "total": 0.0, "min": 0.0, "max": 0.0}
@@ -31,10 +31,11 @@ class Poster:
         self.tracks_drawer.draw(self, d, w, h, offset_x, offset_y)
 
     def __draw_header(self, d):
-        text_color = self.colors["text"]
-        title_style = "font-size:12px; font-family:Arial;"
-        d.add(d.text(self.title, insert=(10, 20), fill=text_color, style=title_style))
-        d.add(d.image("img/runalyze.png", insert=(98.2353, 11), size=(91.7647,10)))
+        if self.title:
+            text_color = self.colors["text"]
+            title_style = "font-size:12px; font-family:Arial;"
+            d.add(d.text(self.title, insert=(10, 20), style=title_style))
+        d.add(d.image("img/runalyze.svg", insert=(88.3, 7.66), size=(105, 16.5)))
 
     def __draw_footer(self, d):
         text_color = self.colors["text"]
