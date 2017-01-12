@@ -42,7 +42,11 @@ class TracksDrawer:
         # compute mercator projection of track segments
         lines = []
         for polyline in track.polylines:
-            lines.append([utils.latlng2xy(lat, lng) for (lat, lng) in polyline])
+            if polyline:
+                lines.append([utils.latlng2xy(lat, lng) for (lat, lng) in polyline])
+
+        if not lines:
+            return
 
         # compute bounds
         (min_x, min_y, max_x, max_y) = utils.compute_bounds_xy(lines)

@@ -13,10 +13,15 @@ class TracksDrawer:
         for track in self.poster.tracks:
             track_xy = []
             for polyline in track.polylines:
-                track_xy.append([utils.latlng2xy(lat, lng) for (lat, lng) in polyline])
-            xy_polylines.extend(track_xy)
-            if track.special:
-                xy_polylines_special.extend(track_xy)
+                if polyline:
+                    track_xy.append([utils.latlng2xy(lat, lng) for (lat, lng) in polyline])
+            if track_xy:
+                xy_polylines.extend(track_xy)
+                if track.special:
+                    xy_polylines_special.extend(track_xy)
+
+        if not xy_polylines:
+            return
 
         (min_x, min_y, max_x, max_y) = utils.compute_bounds_xy(xy_polylines)
         d_x = max_x - min_x
