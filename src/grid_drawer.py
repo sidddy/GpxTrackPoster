@@ -7,16 +7,24 @@ class TracksDrawer:
 
     def draw(self, poster, d, w, h, offset_x, offset_y):
         self.poster = poster
-        size, (count_x, count_y) = self.__compute_grid(len(self.poster.tracks), w, h)
+        nonempty_tracks = self.__filter_tracks()
+        size, (count_x, count_y) = self.__compute_grid(len(nonempty_tracks), w, h)
         spacing_x = 0 if count_x <= 1 else (w-size*count_x)/(count_x - 1)
         spacing_y = 0 if count_y <= 1 else (h-size*count_y)/(count_y - 1)
         offset_x += (w - count_x*size - (count_x - 1)*spacing_x)/2
         offset_y += (h - count_y*size - (count_y - 1)*spacing_y)/2
-        for (index, track) in enumerate(self.poster.tracks):
+        for (index, track) in enumerate(nonempty_tracks):
             x = index % count_x
             y = index // count_x
             color = self.poster.colors['special'] if track.special else self.poster.colors['track']
             self.__draw_track(d, track, offset_x+(0.05 + x)*size+x*spacing_x, offset_y+(0.05+y)*size+y*spacing_y, 0.9 * size, 0.9 * size, color)
+
+    def __filter_tracks(self):
+        tracks = []
+        for track in self.poster.tracks:
+            if track.polylines:
+                tracks.append(track)
+        return tracks
 
     def __compute_grid(self, count, width, height):
         # this is somehow suboptimal O(count^2). I guess it's possible in O(count)

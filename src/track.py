@@ -31,7 +31,8 @@ class Track:
             for t in gpx.tracks:
                 for s in t.segments:
                     line = [(p.latitude, p.longitude) for p in s.points]
-                    self.polylines.append(line)
+                    if line:
+                        self.polylines.append(line)
 
     def append(self, other):
         self.end_time = other.end_time
@@ -48,7 +49,8 @@ class Track:
             self.length = float(data["length"])
             self.polylines = []
             for data_line in data["segments"]:
-                self.polylines.append([(float(d["lat"]), float(d["lng"])) for d in data_line])
+                if data_line:
+                    self.polylines.append([(float(d["lat"]), float(d["lng"])) for d in data_line])
 
     def store_cache(self, cache_file_name):
         dir_name = os.path.dirname(cache_file_name)
