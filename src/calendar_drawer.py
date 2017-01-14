@@ -32,7 +32,7 @@ class TracksDrawer:
             date = datetime.date(self.poster.year, month, 1)
             y = month-1
             y_pos = offset_y + (y*3 + 1)*size + y*spacing_y
-            d.add(d.text(date.strftime("%B"), insert=(offset_x, y_pos-6), fill=self.poster.colors['text'],
+            d.add(d.text(date.strftime("%B"), insert=(offset_x, y_pos-2), fill=self.poster.colors['text'],
                          alignment_baseline="hanging", style="font-size:4px; font-family:Arial"))
 
             day_offset = date.weekday()
