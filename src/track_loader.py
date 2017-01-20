@@ -82,8 +82,8 @@ class TrackLoader:
                 print("{}: skipping empty track".format(file_name))
             elif not t.start_time:
                 print("{}: skipping track without start time".format(file_name))
-            elif t.start_time.year != self.year:
-                print("{}: skipping track with wrong year {}".format(file_name, t.start_time.year))
+            #elif t.start_time.year != self.year:
+            #    print("{}: skipping track with wrong year {}".format(file_name, t.start_time.year))
             else:
                 t.special = (file_name in self.special_file_names)
                 filtered_tracks.append(t)
@@ -96,14 +96,15 @@ class TrackLoader:
         merged_tracks = []
         last_end_time = None
         for t in sorted_tracks:
-            if last_end_time is None:
-                merged_tracks.append(t)
-            else:
-                dt = (t.start_time - last_end_time).total_seconds()
-                if 0 < dt < 3600:
-                    merged_tracks[-1].append(t)
-                else:
-                    merged_tracks.append(t)
+            merged_tracks.append(t)
+            #if last_end_time is None:
+            #    merged_tracks.append(t)
+            #else:
+            #    dt = (t.start_time - last_end_time).total_seconds()
+            #    if 0 < dt < 3600:
+            #        merged_tracks[-1].append(t)
+            #    else:
+            #        merged_tracks.append(t)
             last_end_time = t.end_time
         print("Merged {} track(s)".format(len(sorted_tracks) - len(merged_tracks)))
         # filter out tracks with length < min_length

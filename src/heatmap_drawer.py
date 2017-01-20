@@ -14,7 +14,20 @@ class TracksDrawer:
             track_xy = []
             for polyline in track.polylines:
                 if polyline:
-                    track_xy.append([utils.latlng2xy(lat, lng) for (lat, lng) in polyline])
+                    subline = []
+                    lastLat = 0.0
+                    lastLng = 0.0
+                    for (lat, lng) in polyline:
+                        if abs(lat - lastLat) > 0.02 or abs(lng - lastLng) > 0.02:
+                            if subline:
+                                track_xy.append(subline)
+                            subline = []
+                        subline.append(utils.latlng2xy(lat, lng))
+                        lastLng = lng
+                        lastLat = lat
+                    if subline:
+                        track_xy.append(subline)
+                    #track_xy.append([utils.latlng2xy(lat, lng) for (lat, lng) in polyline])
             if track_xy:
                 xy_polylines.extend(track_xy)
                 if track.special:
@@ -55,10 +68,10 @@ class TracksDrawer:
         color_special = self.poster.colors["special"]
 
         for line in scaled_lines:
-            d.add(d.polyline(points=line, stroke=color, stroke_opacity=0.1, fill='none', stroke_width=5.0, stroke_linejoin='round', stroke_linecap='round'))
+            d.add(d.polyline(points=line, stroke=color, stroke_opacity=0.02, fill='none', stroke_width=0.5, stroke_linejoin='round', stroke_linecap='round'))
         for line in scaled_lines:
-            d.add(d.polyline(points=line, stroke=color, stroke_opacity=0.2, fill='none', stroke_width=2.0, stroke_linejoin='round', stroke_linecap='round'))
+            d.add(d.polyline(points=line, stroke=color, stroke_opacity=0.05, fill='none', stroke_width=0.2, stroke_linejoin='round', stroke_linecap='round'))
         for line in scaled_lines:
-            d.add(d.polyline(points=line, stroke=color, fill='none', stroke_width=0.3, stroke_linejoin='round', stroke_linecap='round'))
+            d.add(d.polyline(points=line, stroke=color, fill='none', stroke_width=0.05, stroke_linejoin='round', stroke_linecap='round'))
         for line in scaled_lines_special:
-            d.add(d.polyline(points=line, stroke=color_special, fill='none', stroke_width=0.3, stroke_linejoin='round', stroke_linecap='round'))
+            d.add(d.polyline(points=line, stroke=color_special, fill='none', stroke_width=0.05, stroke_linejoin='round', stroke_linecap='round'))
