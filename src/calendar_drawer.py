@@ -1,3 +1,8 @@
+# Copyright 2016-2017 Florian Pigorsch & Contributors. All rights reserved.
+#
+# Use of this source code is governed by a MIT-style
+# license that can be found in the LICENSE file.
+
 import calendar
 import datetime
 
@@ -12,7 +17,7 @@ class TracksDrawer:
         count_x = 31
         for month in range(1, 13):
             date = datetime.date(self.poster.year, month, 1)
-            (first_day, last_day) = calendar.monthrange(self.poster.year, month)
+            (_, last_day) = calendar.monthrange(self.poster.year, month)
             count_x = max(count_x, date.weekday() + last_day)
 
         size = min(w / count_x, h / 36)
