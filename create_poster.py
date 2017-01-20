@@ -1,5 +1,10 @@
 #!/usr/bin/env python
 
+# Copyright 2016-2017 Florian Pigorsch & Contributors. All rights reserved.
+#
+# Use of this source code is governed by a MIT-style
+# license that can be found in the LICENSE file.
+
 import argparse
 import datetime
 import appdirs
@@ -8,6 +13,7 @@ from src import track_loader
 from src import poster
 from src import grid_drawer
 from src import calendar_drawer
+from src import circular_drawer
 from src import heatmap_drawer
 
 
@@ -18,7 +24,8 @@ __app_author__ = "flopp.net"
 def main():
     generators = {"grid": grid_drawer.TracksDrawer(),
                   "calendar": calendar_drawer.TracksDrawer(),
-                  "heatmap": heatmap_drawer.TracksDrawer()}
+                  "heatmap": heatmap_drawer.TracksDrawer(),
+                  "circular": circular_drawer.TracksDrawer()}
 
     args_parser = argparse.ArgumentParser()
     args_parser.add_argument('--gpx-dir', dest='gpx_dir', metavar='DIR', type=str, default='.',

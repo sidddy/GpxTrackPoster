@@ -1,3 +1,7 @@
+[![Scrutinizer Score](https://scrutinizer-ci.com/g/flopp/GpxTrackPoster/badges/quality-score.png)](https://scrutinizer-ci.com/g/flopp/GpxTrackPoster/)
+[![Scrutinizer Build](https://scrutinizer-ci.com/g/flopp/GpxTrackPoster/badges/build.png)](https://scrutinizer-ci.com/g/flopp/GpxTrackPoster/)
+![License MIT](https://img.shields.io/badge/license-MIT-lightgrey.svg?style=flat)
+
 # GpxTrackPoster
 Create a visually appealing poster from your GPX tracks - heavily inspired by https://www.madewithsisu.com/
 
@@ -24,7 +28,7 @@ optional arguments:
   --title TITLE             Title to display (default: "My Tracks").
   --athlete NAME            Athlete name to display (default: "John Doe").
   --special FILE            Mark track file from the GPX directory as special; use multiple times to mark multiple tracks.
-  --type TYPE               Type of poster to create (default: "grid", available: "calendar", "grid", "heatmap").
+  --type TYPE               Type of poster to create (default: "grid", available: "calendar", "circular", "grid", "heatmap").
   --stat-label LABEL        Label for number of activities (default: "Runs").
   --stat-num NUMBER         Number of activities (default: automatically calculated).
   --stat-total KM           Total distance (default: automatically calculated).
@@ -65,6 +69,12 @@ The *Calendar Poster* draws one square for each day, each row of squares corresp
 ![Example Grid Poster](https://github.com/flopp/GpxTrackPoster/blob/master/examples/example_calendar.png)
 [svg](https://github.com/flopp/GpxTrackPoster/blob/master/examples/example_calendar.svg)
 
+### Circular Poster (`--type circular`)
+The *Circular Poster* the year in a circle; each day corresponds to a circle segment. The length of each segment corresponds to the total track distance of that day.
+
+![Example Circular Poster](https://github.com/flopp/GpxTrackPoster/blob/master/examples/example_circular.png)
+[svg](https://github.com/flopp/GpxTrackPoster/blob/master/examples/example_circular.svg)
+
 ### Heatmap Poster (`--type heatmap`)
 The *Heatmap Poster* displays all tracks within one "map". The more often a location has been "visited" on a track, the more colorful the corresponding location is on the map. *Special tracks* are drawn with the *special color*.
 
@@ -80,6 +90,10 @@ The *Heatmap Poster* displays all tracks within one "map". The more often a loca
 6. Run `./create_poster.py` (see above)
 7. Deactive virtualenv: `deactivate`
 
+## Contributing
+If you have found a bug or have a feature request, please create a new issue. I'm always happy improve the implementation!
+
+Or even better: clone the repo, fix the bug/implement the feature yourself, and file a pull request. Contributions are always welcome!
 
 ## License
 [MIT](https://github.com/flopp/GpxTrackPoster/blob/master/LICENSE) &copy; 2016 florian Pigorsch

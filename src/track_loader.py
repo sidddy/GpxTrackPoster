@@ -1,3 +1,7 @@
+# Copyright 2016-2017 Florian Pigorsch & Contributors. All rights reserved.
+#
+# Use of this source code is governed by a MIT-style
+# license that can be found in the LICENSE file.
 
 import hashlib
 import os
@@ -69,12 +73,21 @@ class TrackLoader:
             # store non-cached tracks in cache
             if loaded_tracks and self.cache_dir:
                 print("Storing {} track(s) in cache...".format(len(loaded_tracks)))
-                for (file_name, track) in loaded_tracks.items():
+                for (file_name, t) in loaded_tracks.items():
                     checksum = hashlib.sha256(open(file_name, 'rb').read()).hexdigest()
                     cache_file = os.path.join(self.cache_dir, checksum + ".json")
-                    track.store_cache(cache_file)
+                    t.store_cache(cache_file)
             tracks.extend(loaded_tracks.values())
 
+        tracks = self.__filter_tracks(tracks)
+
+        # merge tracks that took place within one hour
+        tracks = self.__merge_tracks(tracks)
+
+        # filter out tracks with length < min_length
+        return [t for t in tracks if t.length >= self.min_length]
+
+    def __filter_tracks(self, tracks):
         filtered_tracks = []
         for t in tracks:
             file_name = t.file_names[0]
@@ -87,15 +100,14 @@ class TrackLoader:
             else:
                 t.special = (file_name in self.special_file_names)
                 filtered_tracks.append(t)
+        return filtered_tracks
 
-        # sort tracks by start time
-        sorted_tracks = sorted(filtered_tracks, key=lambda t: t.start_time)
-
-        # merge tracks that took place within one hour
+    def __merge_tracks(self, tracks):
         print("Merging tracks...")
+        tracks = sorted(tracks, key=lambda t: t.start_time)
         merged_tracks = []
         last_end_time = None
-        for t in sorted_tracks:
+        for t in tracks:
             if last_end_time is None:
                 merged_tracks.append(t)
             else:
@@ -105,9 +117,8 @@ class TrackLoader:
                 else:
                     merged_tracks.append(t)
             last_end_time = t.end_time
-        print("Merged {} track(s)".format(len(sorted_tracks) - len(merged_tracks)))
-        # filter out tracks with length < min_length
-        return [t for t in merged_tracks if t.length >= self.min_length]
+        print("Merged {} track(s)".format(len(tracks) - len(merged_tracks)))
+        return merged_tracks
 
     @staticmethod
     def __load_tracks(file_names):
@@ -160,5 +171,3 @@ class TrackLoader:
             path_name = os.path.join(base_dir, name)
             if name.endswith(".json") and os.path.isfile(path_name):
                 yield path_name
-
-
