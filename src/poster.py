@@ -14,6 +14,8 @@ class Poster:
         self.tracks = []
         self.colors = {"background": "#222222", "text": "#FFFFFF", "special": "#FFFF00", "track": "#4DD2FF"}
         self.statistics = {"label": "Runs", "num": 0, "total": 0.0, "min": 0.0, "max": 0.0}
+        self.map_url = ""
+        self.map_provider = ""
         self.width = 200
         self.height = 300
         self.tracks_drawer = drawer

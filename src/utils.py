@@ -11,6 +11,10 @@ def latlng2xy(lat, lng):
     return lng/180+1, 0.5-math.log(math.tan(math.pi/4*(1+lat/90)))/math.pi
 
 
+def xy2latlng(x, y):
+    return (math.atan(math.exp((0.5-y)*math.pi))*4/math.pi-1)*90, (x-1)*180
+
+
 def compute_bounds_xy(polylines):
     min_x = None
     max_x = None

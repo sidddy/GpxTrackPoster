@@ -54,6 +54,10 @@ def main():
                              help='Statistics: minimal distance')
     args_parser.add_argument('--stat-max', dest='stat_max', metavar='KM', type=float, default=0.0,
                              help='Statistics: maximal distance')
+    args_parser.add_argument('--map-url', dest='map_url', metavar='URL', type=str, default='',
+                             help='URL to fetch a static map (e.g. http://domain.tld/staticmap.php')
+    args_parser.add_argument('--map-provider', dest='map_provider', metavar='NAME', type=str, default='',
+                             help='Name of map provider (must be defined within staticmap service)')
     args_parser.add_argument('--background-color', dest='background_color', metavar='COLOR', type=str,
                              default='#222222', help='Background color of poster (default: "#222222").')
     args_parser.add_argument('--track-color', dest='track_color', metavar='COLOR', type=str, default='#4DD2FF',
@@ -92,6 +96,8 @@ def main():
                     'total': args.stat_total,
                     'min': args.stat_min,
                     'max': args.stat_max}
+    p.map_url = args.map_url
+    p.map_provider = args.map_provider
     p.tracks = tracks
     p.draw(args.output)
 
