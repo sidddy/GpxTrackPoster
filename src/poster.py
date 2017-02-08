@@ -53,8 +53,7 @@ class Poster:
         self.__compute_track_statistics()
 
         d.add(d.text("YEAR",                                                                   insert=(10, self.height-20),  fill=text_color, style=header_style))
-        d.add(d.text("All",                                                   insert=(10, self.height-10),  fill=text_color, style=value_style))
-        #d.add(d.text("{}".format(self.year),                                                   insert=(10, self.height-10),  fill=text_color, style=value_style))
+        d.add(d.text("{}".format(self.year),                                                   insert=(10, self.height-10),  fill=text_color, style=value_style))
         d.add(d.text(self.athlete,                                                             insert=(40, self.height-10),  fill=text_color, style=value_style))
         d.add(d.text("STATISTICS",                                                             insert=(120, self.height-20), fill=text_color, style=header_style))
         d.add(d.text("{}: {}".format(self.statistics['label'], self.statistics['num']),        insert=(120, self.height-15), fill=text_color, style=small_value_style))
