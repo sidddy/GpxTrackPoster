@@ -53,8 +53,8 @@ class TracksDrawer:
             (max_lat, max_lng) = utils.xy2latlng(max_x_, max_y_)
 
             backgroundImage = "{}?bounds={:f},{:f},{:f},{:f}&size=2048x2048&maptype={}";
-            urllib.request.urlretrieve(backgroundImage.format(self.poster.map_url, min_lat, min_lng, max_lat, max_lng, self.poster.map_provider), "img/map.png")
-            d.add(d.image("img/map.png", insert=(offset_x, offset_y), size=(w, h)))
+            urllib.request.urlretrieve(backgroundImage.format(self.poster.map_url, min_lat, min_lng, max_lat, max_lng, self.poster.map_provider), "/var/www/runalyze/web/img/map2017.png")
+            d.add(d.image("img/map2017.png", insert=(offset_x, offset_y), size=(w, h)))
         else:
             scale = w/d_x if w/h <= d_x/d_y else h/d_y
 
@@ -83,9 +83,13 @@ class TracksDrawer:
         color_special = self.poster.colors["special"]
 
         for line in scaled_lines:
-            d.add(d.polyline(points=line, stroke=color, stroke_opacity=0.1, fill='none', stroke_width=5.0, stroke_linejoin='round', stroke_linecap='round'))
+            d.add(d.polyline(points=line, stroke=color, stroke_opacity=0.03, fill='none', stroke_width=5.0, stroke_linejoin='round', stroke_linecap='round'))
         for line in scaled_lines:
-            d.add(d.polyline(points=line, stroke=color, stroke_opacity=0.2, fill='none', stroke_width=2.0, stroke_linejoin='round', stroke_linecap='round'))
+            d.add(d.polyline(points=line, stroke=color, stroke_opacity=0.03, fill='none', stroke_width=4.0, stroke_linejoin='round', stroke_linecap='round'))
+        for line in scaled_lines:
+            d.add(d.polyline(points=line, stroke=color, stroke_opacity=0.03, fill='none', stroke_width=3.0, stroke_linejoin='round', stroke_linecap='round'))
+        for line in scaled_lines:
+            d.add(d.polyline(points=line, stroke=color, stroke_opacity=0.03, fill='none', stroke_width=2.0, stroke_linejoin='round', stroke_linecap='round'))
         for line in scaled_lines:
             d.add(d.polyline(points=line, stroke=color, fill='none', stroke_width=0.3, stroke_linejoin='round', stroke_linecap='round'))
         for line in scaled_lines_special:
