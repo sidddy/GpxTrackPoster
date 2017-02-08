@@ -57,7 +57,7 @@ class Poster:
         d.add(d.text(self.athlete,                                                             insert=(40, self.height-10),  fill=text_color, style=value_style))
         d.add(d.text("STATISTICS",                                                             insert=(120, self.height-20), fill=text_color, style=header_style))
         d.add(d.text("{}: {}".format(self.statistics['label'], self.statistics['num']),        insert=(120, self.height-15), fill=text_color, style=small_value_style))
-        d.add(d.text("Weekly: {:.1f}".format(self.statistics['num']/52),                       insert=(120, self.height-10), fill=text_color, style=small_value_style))
+        ##d.add(d.text("Weekly: {:.1f}".format(self.statistics['num']/52),                       insert=(120, self.height-10), fill=text_color, style=small_value_style))
         d.add(d.text("Total: {:.1f} km".format(self.statistics['total']),                      insert=(139, self.height-15), fill=text_color, style=small_value_style))
         d.add(d.text("Avg: {:.1f} km".format(self.statistics['total']/self.statistics['num']), insert=(139, self.height-10), fill=text_color, style=small_value_style))
         d.add(d.text("Min: {:.1f} km".format(self.statistics['min']),                          insert=(167, self.height-15), fill=text_color, style=small_value_style))
